@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1763372651219,
+    "name": "Purvi",
+    "rollNo": "60",
+    "universityId": "123",
+    "bloodGroup": "A+",
+    "address": "Palghar",
+    "year": "3rd",
+    "department": "IT"
+  },
+  {
+    "id": 1763372910179,
+    "name": "Atharva",
+    "rollNo": "59",
+    "universityId": "2345",
+    "bloodGroup": "O+",
+    "address": "Borivali",
+    "year": "3rd",
+    "department": "Mechanical"
+  }
+]

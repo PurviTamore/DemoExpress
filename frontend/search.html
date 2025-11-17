@@ -1,218 +1,200 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Students</title>
     <style>
-       
+        /* --- UI STYLES (Purple Theme) --- */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: #1a1a1a;
-            color: #f0f2f5;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             min-height: 100vh;
+            background-color: #3b0066;
+            color: #fff;
+            padding-bottom: 50px;
         }
 
-        h2,
-        h3 {
-            color: #ffffff;
-            text-align: center;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            font-size: 2.5em;
-        }
-
-        h3 {
-            font-size: 1.8em;
-            margin-top: 30px;
-        }
-
-        /* Navigation Bar Styles */
         .nav-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px 0;
             text-align: center;
-            margin-bottom: 20px;
         }
-
         .nav-button {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 10px 25px;
             margin: 0 10px;
-            background: #333;
-            color: #ccc;
+            background: #5e0099;
+            color: #fff;
             text-decoration: none;
-            border-radius: 8px;
-            border: 2px solid #555;
-            transition: all 0.3s ease;
+            border-radius: 30px;
             font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid transparent;
         }
-
         .nav-button:hover {
-            background: #444;
-            border-color: #8a2be2;
+            background: #7a00cc;
+            transform: translateY(-2px);
         }
-
         .nav-button.active {
-            background: #8a2be2;
-            color: white;
-            border-color: #8a2be2;
+            background: #ff007f;
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4);
         }
 
-        /* Form Container Style */
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #2a2a2a;
-            border: 2px solid #555;
-            border-radius: 12px;
-            padding: 25px;
+        /* Search Container */
+        .search-container {
+            background-color: #fff;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+        .search-container h2 {
+            margin-top: 0;
+            color: #3b0066;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        .search-container p {
+            color: #777;
             margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        /* Form Elements */
+        .search-form-group {
+            margin-bottom: 25px;
+            text-align: left;
         }
-
-        .grid-span-2 {
-            grid-column: span 2;
+        .search-form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
         }
-
-        /* Input Styling */
-        input,
-        textarea,
-        select {
+        .search-form-group input, 
+        .search-form-group select {
             width: 100%;
             padding: 12px;
-            margin: 5px 0;
-            box-sizing: border-box;
-            border: 2px solid #555;
-            border-radius: 8px;
-            background: #333;
-            color: #f0f2f5;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #8a2be2;
-            box-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
-            outline: none;
-        }
-
-        ::placeholder {
-            color: #888;
-            opacity: 1;
-        }
-
-        select option {
-            background: #555;
-            color: #f0f2f5;
-        }
-
-        /* Button Styling */
-        button {
-            background: #8a2be2;
-            color: white;
-            padding: 12px 15px;
             border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            grid-column: span 2;
-            justify-self: center;
-            width: 250px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+            border-bottom: 2px solid #ccc;
+            font-size: 1.1em;
+            box-sizing: border-box;
+            background-color: transparent;
+            color: #333;
+            font-family: inherit;
+        }
+        .search-form-group input:focus,
+        .search-form-group select:focus {
+            outline: none;
+            border-bottom-color: #ff007f;
         }
 
-        button:hover {
-            background: #9932cc;
-            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+        .search-button {
+            background-color: #ff007f;
+            color: #fff;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3);
+            width: 100%;
+        }
+        .search-button:hover {
+            background-color: #e6006e;
             transform: translateY(-2px);
         }
 
-        /* Card Styling */
-        #resultsList {
-            max-width: 800px;
-            margin: 0 auto;
+        /* Results */
+        h3.results-title {
+            width: 100%;
+            max-width: 900px;
+            text-align: left;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #5e0099;
+            padding-bottom: 10px;
         }
-
+        #resultsList {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
         .card {
-            background: #2a2a2a;
-            border: 2px solid #555;
+            background-color: #fff;
+            color: #333;
             border-radius: 12px;
             padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            border-left: 5px solid #5e0099; /* Purple accent for search results */
         }
-
         .card:hover {
-            border-color: #8a2be2;
-            transform: translateY(-3px);
+            transform: translateY(-5px);
         }
-
         .card strong {
-            color: #8a2be2;
-            font-size: 1.3em;
+            color: #ff007f;
+            font-size: 1.2em;
             display: block;
             margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
         }
-
         .card-details {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px 15px;
+            gap: 5px 10px;
+            font-size: 0.9em;
         }
-
-        .card-details div {
-            font-size: 0.95em;
-            color: #ccc;
+        .card-details strong {
+            color: #555;
         }
-
-        .card-details div strong {
-            color: #f0f2f5;
-            font-weight: 600;
-            font-size: 1em;
-        }
-
         .card-details .address {
             grid-column: span 2;
         }
     </style>
 </head>
-
 <body>
-    <h2>Student Information System</h2>
 
     <div class="nav-container">
         <a href="index.html" class="nav-button">Add Student</a>
         <a href="search.html" class="nav-button active">Search Students</a>
     </div>
 
-    <div class="form-container">
-        <div class="form-grid">
+    <div class="search-container">
+        <h2>Find a Student</h2>
+        <p>Search the database by ID, Roll number, or Department.</p>
+        
+        <div class="search-form-group">
+            <label>Search By</label>
             <select id="searchBy">
                 <option value="">Select Criteria...</option>
                 <option value="rollNo">Roll Number</option>
                 <option value="department">Branch (Department)</option>
                 <option value="universityId">University ID</option>
             </select>
-            <input id="searchQuery" placeholder="Enter search term...">
-            <button id="searchButton" class="grid-span-2">Search</button>
         </div>
+        <div class="search-form-group">
+            <label>Query</label>
+            <input id="searchQuery" type="text" placeholder="Enter search term...">
+        </div>
+        
+        <button id="searchButton" class="search-button">Search</button>
     </div>
 
-    <h3>Search Results</h3>
+    <h3 class="results-title">Search Results</h3>
     <div id="resultsList"></div>
 
     <script>
@@ -223,23 +205,23 @@
             const list = document.getElementById('resultsList');
 
             if (students.length === 0) {
-                list.innerHTML = '<em>No students found matching your search.</em>';
+                list.innerHTML = '<em style="color: #ccc;">No students found matching your search.</em>';
                 return;
             }
 
             list.innerHTML = students.map(s => `
-        <div class="card">
-          <strong>${s.name}</strong>
-          <div class="card-details">
-            <div><strong>Roll No:</strong> ${s.rollNo}</div>
-            <div><strong>Univ. ID:</strong> ${s.universityId}</div>
-            <div><strong>Year:</strong> ${s.year}</div>
-            <div><strong>Dept:</strong> ${s.department}</div>
-            <div><strong>Blood Group:</strong> ${s.bloodGroup || 'N/A'}</div>
-            <div class="address"><strong>Address:</strong> ${s.address || 'N/A'}</div>
-          </div>
-        </div>
-      `).join('');
+                <div class="card">
+                  <strong>${s.name}</strong>
+                  <div class="card-details">
+                    <div><strong>Roll No:</strong> ${s.rollNo}</div>
+                    <div><strong>Univ. ID:</strong> ${s.universityId}</div>
+                    <div><strong>Year:</strong> ${s.year}</div>
+                    <div><strong>Dept:</strong> ${s.department}</div>
+                    <div><strong>Blood Group:</strong> ${s.bloodGroup || 'N/A'}</div>
+                    <div class="address"><strong>Address:</strong> ${s.address || 'N/A'}</div>
+                  </div>
+                </div>
+            `).join('');
         }
 
         // Add listener for the "Search" button
@@ -265,13 +247,12 @@
                 displayResults(data.students); // Display the filtered results
             } catch (error) {
                 console.error("Error searching students:", error);
-                document.getElementById('resultsList').innerHTML = "<em>Error searching. Is the backend running?</em>";
+                document.getElementById('resultsList').innerHTML = "<em style='color: #ff007f;'>Error searching. Is the backend running?</em>";
             }
         });
 
         // Set initial message
-        document.getElementById('resultsList').innerHTML = '<em>Enter a search to see results.</em>';
+        document.getElementById('resultsList').innerHTML = '<em style="color: #ccc;">Enter a search to see results.</em>';
     </script>
 </body>
-
 </html>

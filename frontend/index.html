@@ -1,349 +1,413 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Student App Frontend</title>
-  <style>
-    /* STYLES from your dark-mode UI */
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #1a1a1a;
-      color: #f0f2f5;
-      padding: 20px;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <style>
+        /* --- UI STYLES (Purple Theme) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* changed to column to accommodate nav and list */
+            align-items: center;
+            min-height: 100vh;
+            background-color: #3b0066; /* Dark purple background */
+            color: #fff;
+            padding-bottom: 50px;
+        }
 
-    h2,
-    h3 {
-      color: #ffffff;
-      text-align: center;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
+        /* Navigation */
+        .nav-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .nav-button {
+            display: inline-block;
+            padding: 10px 25px;
+            margin: 0 10px;
+            background: #5e0099;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .nav-button:hover {
+            background: #7a00cc;
+            transform: translateY(-2px);
+        }
+        .nav-button.active {
+            background: #ff007f; /* Pink active state */
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4);
+        }
 
-    h2 {
-      font-size: 2.5em;
-    }
+        /* Main Form Container */
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            background-color: #3b0066;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
+            flex-wrap: wrap; /* Responsive wrapping */
+        }
 
-    h3 {
-      font-size: 1.8em;
-      margin-top: 30px;
-    }
+        /* Left Panel */
+        .left-panel {
+            background-color: #5e0099;
+            padding: 40px;
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #fff;
+            min-width: 250px;
+            flex-grow: 1;
+        }
+        .left-panel h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .left-panel h1 strong {
+            color: #ff007f;
+        }
+        .left-panel p {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
 
-    /* NEW: Navigation Bar Styles */
-    .nav-container {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        /* Right Panel (Form) */
+        .right-panel {
+            background-color: #fff;
+            padding: 40px;
+            width: 65%;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            min-width: 300px;
+        }
 
-    .nav-button {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 0 10px;
-      background: #333;
-      color: #ccc;
-      text-decoration: none;
-      border-radius: 8px;
-      border: 2px solid #555;
-      transition: all 0.3s ease;
-      font-weight: bold;
-    }
+        .form-header {
+            margin-bottom: 20px;
+        }
+        .form-header h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1.5em;
+        }
 
-    .nav-button:hover {
-      background: #444;
-      border-color: #8a2be2;
-    }
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        /* Flex row for side-by-side inputs */
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
 
-    .nav-button.active {
-      background: #8a2be2;
-      color: white;
-      border-color: #8a2be2;
-    }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9em;
+        }
 
-    /* Form Container Style */
-    .form-container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #2a2a2a;
-      border: 2px solid #555;
-      border-radius: 12px;
-      padding: 25px;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 2px solid #ddd;
+            font-size: 1em;
+            background-color: transparent;
+            color: #333;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-bottom-color: #ff007f;
+        }
 
-    .grid-span-2 {
-      grid-column: span 2;
-    }
+        /* Button */
+        .send-message-btn {
+            background-color: #ff007f;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3);
+        }
+        .send-message-btn:hover {
+            background-color: #e6006e;
+            transform: translateY(-2px);
+        }
 
-    /* Input Styling */
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 12px;
-      margin: 5px 0;
-      box-sizing: border-box;
-      border: 2px solid #555;
-      border-radius: 8px;
-      background: #333;
-      color: #f0f2f5;
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
+        /* Student List Cards */
+        h3.list-title {
+            width: 100%;
+            max-width: 900px;
+            text-align: left;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #5e0099;
+            padding-bottom: 10px;
+        }
+        #studentsList {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: #fff; /* White card on purple background */
+            color: #333;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            border-left: 5px solid #ff007f; /* Pink accent border */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card strong.name-title {
+            color: #3b0066;
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .card-details {
+            font-size: 0.9em;
+        }
+        .card-details div {
+            margin-bottom: 5px;
+        }
+        .card-details strong {
+            color: #555;
+        }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #8a2be2;
-      box-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
-      outline: none;
-    }
-
-    ::placeholder {
-      color: #888;
-      opacity: 1;
-    }
-
-    select option {
-      background: #555;
-      color: #f0f2f5;
-    }
-
-    /* Button Styling */
-    button {
-      background: #8a2be2;
-      color: white;
-      padding: 12px 15px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      grid-column: span 2;
-      justify-self: center;
-      width: 250px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
-    }
-
-    button:hover {
-      background: #9932cc;
-      box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
-      transform: translateY(-2px);
-    }
-
-    /* Card Styling */
-    #studentsList {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .card {
-      background: #2a2a2a;
-      border: 2px solid #555;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      border-color: #8a2be2;
-      transform: translateY(-3px);
-    }
-
-    .card strong {
-      color: #8a2be2;
-      font-size: 1.3em;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .card-details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px 15px;
-    }
-
-    .card-details div {
-      font-size: 0.95em;
-      color: #ccc;
-    }
-
-    .card-details div strong {
-      color: #f0f2f5;
-      font-weight: 600;
-      font-size: 1em;
-    }
-
-    .card-details .address {
-      grid-column: span 2;
-    }
-  </style>
+        /* Responsive fixes */
+        @media (max-width: 768px) {
+            .left-panel { width: 100%; padding: 30px; text-align: center;}
+            .right-panel { width: 100%; padding: 30px; }
+            .form-row { flex-direction: column; gap: 0; }
+        }
+    </style>
 </head>
-
 <body>
-  <h2>Student Information System</h2>
 
-  <div class="nav-container">
-    <a href="index.html" class="nav-button active">Add Student</a>
-    <a href="search.html" class="nav-button">Search Students</a>
-  </div>
-
-  <div class="form-container">
-    <div class="form-grid">
-      <input id="name" placeholder="Student Name" />
-      <input id="rollNo" placeholder="Roll No (e.g., A-123)" />
-
-      <input id="universityId" placeholder="University ID (Numbers only)" />
-      <select id="bloodGroup">
-        <option value="">Select Blood Group...</option>
-        <option value="A+">A+</option>
-        <option value="A-">A-</option>
-        <option value="B+">B+</option>
-        <option value="B-">B-</option>
-        <option value="AB+">AB+</option>
-        <option value="AB-">AB-</option>
-        <option value="O+">O+</option>
-        <option value="O-">O-</option>
-      </select>
-
-      <select id="year">
-        <option value="">Select Year...</option>
-        <option value="1st">1st Year</option>
-        <option value="2nd">2nd Year</option>
-        <option value="3rd">3rd Year</option>
-        <option value="4th">4th Year</option>
-      </select>
-
-      <select id="department">
-        <option value="">Select Department...</option>
-        <option value="IT">Information Technology</option>
-        <option value="Computer">Computer Science</option>
-        <option value="Mechanical">Mechanical</option>
-        <option value="Civil">Civil</option>
-        <option value="Electrical">Electrical</option>
-      </select>
-
-      <textarea id="address" rows="3" placeholder="Address" class="grid-span-2"></textarea>
-
-      <button id="addStudent">Add Student</button>
+    <div class="nav-container">
+        <a href="index.html" class="nav-button active">Add Student</a>
+        <a href="search.html" class="nav-button">Search Students</a>
     </div>
-  </div>
 
-  <h3>Saved Students</h3>
-  <div id="studentsList"></div>
-
-  <script>
-    // This JavaScript is the same as before
-    const API = 'http://localhost:5000';
-
-    const REGEX = {
-      name: /^[a-zA-Z\s.-]+$/,
-      rollNo: /^[a-zA-Z0-9-]+$/,
-      universityId: /^\d+$/,
-    };
-
-    async function fetchStudents() {
-      try {
-        const res = await fetch(API + '/students');
-        const data = await res.json();
-        const list = document.getElementById('studentsList');
-
-        list.innerHTML = data.students.map(s => `
-          <div class="card">
-            <strong>${s.name}</strong>
-            <div class="card-details">
-              <div><strong>Roll No:</strong> ${s.rollNo}</div>
-              <div><strong>Univ. ID:</strong> ${s.universityId}</div>
-              <div><strong>Year:</strong> ${s.year}</div>
-              <div><strong>Dept:</strong> ${s.department}</div>
-              <div><strong>Blood Group:</strong> ${s.bloodGroup || 'N/A'}</div>
-              <div class="address"><strong>Address:</strong> ${s.address || 'N/A'}</div>
+    <div class="container">
+        <div class="left-panel">
+            <h1>Start your <br> journey <strong>here</strong>.</h1>
+            <p>Register new students into the system effortlessly. Keep track of academic records, departments, and personal details in one cool place.</p>
+        </div>
+        <div class="right-panel">
+            <div class="form-header">
+                <h3>Student Details</h3>
             </div>
-          </div>
-        `).join('') || '<em>No students added yet</em>';
-      } catch (error) {
-        console.error("Error fetching students:", error);
-        document.getElementById('studentsList').innerHTML = "<em>Error loading students. Is the backend running?</em>";
-      }
-    }
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input id="name" type="text" placeholder="Ex: John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Roll Number</label>
+                    <input id="rollNo" type="text" placeholder="Ex: A-123">
+                </div>
+            </div>
 
-    function clearForm() {
-      document.getElementById('name').value = '';
-      document.getElementById('rollNo').value = '';
-      document.getElementById('universityId').value = '';
-      document.getElementById('bloodGroup').value = '';
-      document.getElementById('address').value = '';
-      document.getElementById('year').value = '';
-      document.getElementById('department').value = '';
-    }
+            <div class="form-row">
+                <div class="form-group">
+                    <label>University ID</label>
+                    <input id="universityId" type="text" placeholder="Numbers only">
+                </div>
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select id="bloodGroup">
+                        <option value="">Select...</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+            </div>
 
-    function validateInput(student) {
-      if (!REGEX.name.test(student.name)) {
-        alert("Please enter a valid name (letters and spaces only).");
-        return false;
-      }
-      if (!REGEX.rollNo.test(student.rollNo)) {
-        alert("Please enter a valid Roll No (alphanumeric).");
-        return false;
-      }
-      if (!REGEX.universityId.test(student.universityId)) {
-        alert("University ID must contain only numbers.");
-        return false;
-      }
-      if (!student.year) {
-        alert("Please select a year.");
-        return false;
-      }
-      if (!student.department) {
-        alert("Please select a department.");
-        return false;
-      }
-      return true;
-    }
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Year</label>
+                    <select id="year">
+                        <option value="">Select...</option>
+                        <option value="1st">1st Year</option>
+                        <option value="2nd">2nd Year</option>
+                        <option value="3rd">3rd Year</option>
+                        <option value="4th">4th Year</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <select id="department">
+                        <option value="">Select...</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="Computer">Computer Science</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Civil">Civil</option>
+                        <option value="Electrical">Electrical</option>
+                    </select>
+                </div>
+            </div>
 
-    document.getElementById('addStudent').addEventListener('click', async () => {
-      const studentData = {
-        name: document.getElementById('name').value.trim(),
-        rollNo: document.getElementById('rollNo').value.trim(),
-        universityId: document.getElementById('universityId').value.trim(),
-        bloodGroup: document.getElementById('bloodGroup').value,
-        address: document.getElementById('address').value.trim(),
-        year: document.getElementById('year').value,
-        department: document.getElementById('department').value,
-      };
+            <div class="form-group">
+                <label>Address</label>
+                <textarea id="address" rows="2" placeholder="Enter full address"></textarea>
+            </div>
 
-      if (!validateInput(studentData)) {
-        return;
-      }
+            <button id="addStudent" class="send-message-btn">Register Student</button>
+        </div>
+    </div>
 
-      try {
-        await fetch(API + '/students', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(studentData)
+    <h3 class="list-title">Registered Students</h3>
+    <div id="studentsList">
+        </div>
+
+    <script>
+        const API = 'http://localhost:5000';
+
+        const REGEX = {
+            name: /^[a-zA-Z\s.-]+$/,
+            rollNo: /^[a-zA-Z0-9-]+$/,
+            universityId: /^\d+$/,
+        };
+
+        async function fetchStudents() {
+            try {
+                const res = await fetch(API + '/students');
+                const data = await res.json();
+                const list = document.getElementById('studentsList');
+
+                list.innerHTML = data.students.map(s => `
+                  <div class="card">
+                    <strong class="name-title">${s.name}</strong>
+                    <div class="card-details">
+                      <div><strong>Roll No:</strong> ${s.rollNo}</div>
+                      <div><strong>Univ. ID:</strong> ${s.universityId}</div>
+                      <div><strong>Year:</strong> ${s.year}</div>
+                      <div><strong>Dept:</strong> ${s.department}</div>
+                      <div><strong>Blood Group:</strong> ${s.bloodGroup || 'N/A'}</div>
+                      <div class="address"><strong>Address:</strong> ${s.address || 'N/A'}</div>
+                    </div>
+                  </div>
+                `).join('') || '<em style="color: #ccc;">No students added yet</em>';
+            } catch (error) {
+                console.error("Error fetching students:", error);
+                document.getElementById('studentsList').innerHTML = "<em style='color: #ff007f;'>Error loading students. Is the backend running?</em>";
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('rollNo').value = '';
+            document.getElementById('universityId').value = '';
+            document.getElementById('bloodGroup').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('year').value = '';
+            document.getElementById('department').value = '';
+        }
+
+        function validateInput(student) {
+            if (!REGEX.name.test(student.name)) {
+                alert("Please enter a valid name (letters and spaces only).");
+                return false;
+            }
+            if (!REGEX.rollNo.test(student.rollNo)) {
+                alert("Please enter a valid Roll No (alphanumeric).");
+                return false;
+            }
+            if (!REGEX.universityId.test(student.universityId)) {
+                alert("University ID must contain only numbers.");
+                return false;
+            }
+            if (!student.year) {
+                alert("Please select a year.");
+                return false;
+            }
+            if (!student.department) {
+                alert("Please select a department.");
+                return false;
+            }
+            return true;
+        }
+
+        document.getElementById('addStudent').addEventListener('click', async () => {
+            const studentData = {
+                name: document.getElementById('name').value.trim(),
+                rollNo: document.getElementById('rollNo').value.trim(),
+                universityId: document.getElementById('universityId').value.trim(),
+                bloodGroup: document.getElementById('bloodGroup').value,
+                address: document.getElementById('address').value.trim(),
+                year: document.getElementById('year').value,
+                department: document.getElementById('department').value,
+            };
+
+            if (!validateInput(studentData)) {
+                return;
+            }
+
+            try {
+                await fetch(API + '/students', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(studentData)
+                });
+
+                clearForm();
+                fetchStudents();
+            } catch (error) {
+                console.error("Error adding student:", error);
+                alert("Error adding student. See console for details.");
+            }
         });
 
-        clearForm();
         fetchStudents();
-      } catch (error) {
-        console.error("Error adding student:", error);
-        alert("Error adding student. See console for details.");
-      }
-    });
-
-    fetchStudents();
-  </script>
+    </script>
 </body>
-
 </html>
